@@ -1,0 +1,62 @@
+/*
+* @Author: TomChen
+* @Date:   2018-11-16 18:25:25
+* @Last Modified by:   TomChen
+* @Last Modified time: 2018-12-23 17:02:08
+*/
+* {
+	box-sizing: border-box;
+}
+body{
+	font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif,"宋体";
+}
+a {
+	text-decoration: none;
+}
+
+.container {
+	/* width: 1920px; */
+	/* height: 100%; */
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+
+/* @media screen and (min-width:1600px){
+	.inside{
+		padding-left: 360px;
+		padding-right: 360px;
+	} 
+}
+@media screen and (max-width:1600px){
+	.inside{
+		padding-left: 10%;
+		padding-right: 10%;
+	}
+} */
+/*弹性布局水平布局两边分散*/
+.flex-row-space-between {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.flex-column-center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.clearfix:after {
+	display: block;
+	content: '';
+	clear: both;
+	height: 0;
+	visibility: hidden;
+}
+
+.clearfix {
+	*zoom: 1;
+}
+
+/*元素垂直居中*/
