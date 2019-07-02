@@ -50,26 +50,108 @@
         $('.nav-content').html(html)
     }
     /**顶部按钮hover时下拉菜单效果结束 */
-    
-    $(document).ready(function () {
-        buildTabHtml()
+    /**中间部分选项卡 */
+    $('.centre .tab-title .tab-item').on('click',function(){
+        var name = $(this).find('a')[0].innerText
+        var $elem = $(this).siblings();
+        var num = $(this).index();
+        buildSolutionHtml(num,name);
+        addClass(this,$elem);
     })
-    /**选项卡产品部分节点生成 */
-    function buildTabHtml() {
-        var html = '';
-        $.each(data2,function(index,val){
-            html += '<li>'
-            html += '    <img src="'+val.img+'" alt="">'
-            html += '    <div class="mask">'
-            html += '        <h1>'+val.h1+'</h1>'
-            html += '        <p></p>'
-            html += '        <p>'+val.p+'</p>'
-            html += '        <a href="#">more>></a>'
-            html += '    </div>'
-            html += '</li>'
-        })
+    $(document).ready(function () {
+        buildSolutionHtml(1,'产品')
+    })
 
-        $('.centre .container .centent ul').html(html)
-        
+    /**选项卡部分节点生成 */
+    function buildSolutionHtml(num,name){
+        var html1 = '';
+        html1 += '<div class="describe">'
+        html1 += '    <h1>'+data2[num][0].h1+'</h1>'
+        html1 += '    <p>'+data2[num][0].p1+'</p>'
+        html1 += '    <p></p>'
+        html1 += '    <p>'+data2[num][0].p2+'</p>'
+        html1 += '</div>'
+        html1 += '<div class="tab-content">'
+        if(data2[num][0].class){
+            html1 += '    <ul class="service">'
+        }else{
+            html1 += '    <ul>'
+        }
+        $.each(data2[num][1], function (index, val) {
+            html1 += '<li>'
+            html1 += '    <img src="' + val.img + '" alt="">'
+            html1 += '    <div class="mask">'
+            html1 += '        <h1>' + val.h1 + '</h1>'
+            html1 += '        <p></p>'
+            html1 += '        <p>' + val.p + '</p>'
+            html1 += '        <a href="#">more>></a>'
+            html1 += '    </div>'
+            html1 += '</li>'
+        })
+        html1 += '    </ul>'
+        html1 += '</div>'
+        $('.centre .container .centent').html(html1);
+        /**左侧边栏节点生成 */
+        var html2 = '';
+        html2 +='<li class="sidebar-item first">'
+        html2 +='    <a href="#">'
+        html2 +='        '+name+''
+        html2 +='    </a>'
+        html2 +='</li>'
+        $.each(data1[num].list, (index, val) => {
+            $.each(val, (i, val) => {
+                html2 += '<li class="sidebar-item">'
+                html2 += '   <a href="#">' + val + '</a>'
+                html2 += '</li>'
+            })
+        })
+        $('.l_sidebar .sidebar-list').html(html2)
+    }   
+    /**选项卡解决方案节点生成 */
+
+    /**添加Class共同方法 */
+    function addClass(elem, $elem) {
+        $(elem).addClass('active');
+        $($elem).removeClass('active');
     }
+    /**底部联系方式按钮放上去效果 */
+    $('.footer .content div .hov').on('mouseover', function () {
+        var $elem = $(this).siblings()
+        addClass(this, $elem)
+    })
+    $('.footer .content div .img1').on('mouseover', function () {
+        $('.footer .content .call-me-list').show()
+        $('.footer .content .img-box').hide()
+    })
+    $('.footer .content div .img2').on('mouseover', function () {
+        $('.footer .content .call-me-list').hide()
+        $('.footer .content .img-box').show()
+    })
+    /**页面滚动*/
+    $(window).on('scroll', function () {
+        var winY = $(window).scrollTop() || window.scrollY
+        /**左侧边导航栏效果  */
+        if (winY == 0) {
+            $('.l_sidebar').css('left', '0px');
+            $('.sidebar-arrows').fadeOut()
+
+        } else {
+            $('.l_sidebar').css('left', '-130px')
+            $('.sidebar-arrows').fadeIn()
+        }
+        /**右侧边导航栏效果 */
+        if (winY >= 300) {
+            $('.goTop').fadeIn()
+        } else {
+            $('.goTop').fadeOut()
+        }
+    })
+    /**右侧边导航栏效果goTop效果 */
+    $('.goTop').on('click', function () {
+        $("body,html").animate({
+                scrollTop: 0
+            },
+            330
+        );
+    })
 })(jQuery);
