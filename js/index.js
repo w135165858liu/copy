@@ -107,7 +107,6 @@
         })
         $('.l_sidebar .sidebar-list').html(html2)
     }   
-    /**选项卡解决方案节点生成 */
 
     /**添加Class共同方法 */
     function addClass(elem, $elem) {

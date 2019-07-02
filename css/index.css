@@ -290,7 +290,7 @@
     text-align: center;
     transition: all .5s;
     font-size: 26px;
-    
+    font-weight: 300;
 }
 .centre .container .centent li p:nth-child(2){
     transition: all .5s;
