@@ -791,7 +791,6 @@
     margin: 1% auto 3%;
 }
 .centre .tab-btn a{
-    display: inline-block;
     height: 52px;
     background-color: #fff;
     color: #000;
@@ -805,10 +804,16 @@
     border-radius: 6px;
     float: left;
 }
-.centre .tab-btn .active{
+.centre .tab-btn a:hover{
     background-color: #497bac;
     border-color: #497bac;
     color: #fff;
+    transition: background-color .5s, sborder-color .5s, color .5s ;
+}
+.centre .tab-btn .active{
+    background-color: #497bac;
+    border-color: #497bac;
+    color: #fff; 
 }
 
 
@@ -824,7 +829,8 @@
     width: 32.3%;
     float: left;
     margin: 0.5% 0.5% 50px;
-
+    position: relative;
+    top: 250px;
 }
 .centre>.content .item .img{
     width:100%;
@@ -844,7 +850,7 @@
     font-weight: 100;
 }
 .centre>.content .item p{
-    text-indent: -9px;
+    text-ident: -9px;
     color: #999;
     margin: 1% 0;
     font-size: 14px;

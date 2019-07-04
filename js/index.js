@@ -1,7 +1,30 @@
 ;
 (function ($) {
+    /**节流操作 */
+    function throttle(fn, wait) {
+        var lastTime = Date.now();
+        return function () {
+            var currentTime = Date.now();
+            if (currentTime - lastTime > wait) {
+                fn();
+                lastTime = Date.now();
+            }
+        }
+    }
+    /**单例模式 */
+    function getSingle(fn){
+		var obj = null;
+		return function(){
+			if(!obj){
+				obj = fn();
+			}
+			return obj;
+		}
+    }
+
     /*顶部按钮hover时下拉菜单效果 */
     $(document).ready(function () {
+        sildeInUp('.centre>.content .item');
         $('.nav-content').on('mouseenter', function () {
             $('.nav-content').stop().show()
         })
@@ -51,30 +74,30 @@
     }
     /**顶部按钮hover时下拉菜单效果结束 */
     /**中间部分选项卡 */
-    $('.centre .tab-title .tab-item').on('click',function(){
+    $('.centre .tab-title .tab-item').on('click', function () {
         var name = $(this).find('a')[0].innerText
         var $elem = $(this).siblings();
         var num = $(this).index();
-        buildSolutionHtml(num,name);
-        addClass(this,$elem);
+        buildSolutionHtml(num, name);
+        addClass(this, $elem);
     })
     $(document).ready(function () {
-        buildSolutionHtml(1,'产品')
+        buildSolutionHtml(1, '产品')
     })
 
     /**选项卡部分节点生成 */
-    function buildSolutionHtml(num,name){
+    function buildSolutionHtml(num, name) {
         var html1 = '';
         html1 += '<div class="describe">'
-        html1 += '    <h1>'+data2[num][0].h1+'</h1>'
-        html1 += '    <p>'+data2[num][0].p1+'</p>'
+        html1 += '    <h1>' + data2[num][0].h1 + '</h1>'
+        html1 += '    <p>' + data2[num][0].p1 + '</p>'
         html1 += '    <p></p>'
-        html1 += '    <p>'+data2[num][0].p2+'</p>'
+        html1 += '    <p>' + data2[num][0].p2 + '</p>'
         html1 += '</div>'
         html1 += '<div class="tab-content">'
-        if(data2[num][0].class){
+        if (data2[num][0].class) {
             html1 += '    <ul class="service">'
-        }else{
+        } else {
             html1 += '    <ul>'
         }
         $.each(data2[num][1], function (index, val) {
@@ -93,11 +116,11 @@
         $('.centre .container .centent').html(html1);
         /**左侧边栏节点生成 */
         var html2 = '';
-        html2 +='<li class="sidebar-item first">'
-        html2 +='    <a href="#">'
-        html2 +='        '+name+''
-        html2 +='    </a>'
-        html2 +='</li>'
+        html2 += '<li class="sidebar-item first">'
+        html2 += '    <a href="#">'
+        html2 += '        ' + name + ''
+        html2 += '    </a>'
+        html2 += '</li>'
         $.each(data1[num].list, (index, val) => {
             $.each(val, (i, val) => {
                 html2 += '<li class="sidebar-item">'
@@ -106,7 +129,7 @@
             })
         })
         $('.l_sidebar .sidebar-list').html(html2)
-    }   
+    }
 
     /**添加Class共同方法 */
     function addClass(elem, $elem) {
@@ -126,17 +149,33 @@
         $('.footer .content .call-me-list').hide()
         $('.footer .content .img-box').show()
     })
+    /**客户案例动画设置 */
+    function sildeInUp(dom) {
+        var wScrollTop = $(window).scrollTop();
+        var innerHeight = $(window).innerHeight()
+        setTimeout(function () {
+            $(''+dom+'').each(function (index, val) {
+                var top =  $(this).css('top')
+                var offsetTop = $(val).offset().top;
+                var clienTop = wScrollTop+innerHeight+parseInt(top)
+                if (clienTop >= offsetTop && top != 0) {
+                    $(this).animate({'top':'0'},550)
+                }
+            })
+        }, 0)
+    }
     /**页面滚动*/
-    $(window).on('scroll', function () {
+    $(window).on('scroll', throttle(function () {
+        /**左侧边导航栏效果 */
         var winY = $(window).scrollTop() || window.scrollY
         /**左侧边导航栏效果  */
         if (winY == 0) {
             $('.l_sidebar').css('left', '0px');
-            $('.sidebar-arrows').fadeOut()
+            $('.sidebar-arrows').fadeOut();
 
         } else {
-            $('.l_sidebar').css('left', '-130px')
-            $('.sidebar-arrows').fadeIn()
+            $('.l_sidebar').css('left', '-130px');
+            $('.sidebar-arrows').fadeIn();
         }
         /**右侧边导航栏效果 */
         if (winY >= 300) {
@@ -144,7 +183,8 @@
         } else {
             $('.goTop').fadeOut()
         }
-    })
+        sildeInUp('.centre>.content .item')
+    },0))
     /**右侧边导航栏效果goTop效果 */
     $('.goTop').on('click', function () {
         $("body,html").animate({
@@ -153,4 +193,7 @@
             330
         );
     })
+
+
+
 })(jQuery);
